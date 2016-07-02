@@ -44,7 +44,7 @@ $(document).ready(function() {
         if (!inputs[i]) {
           inputs[i] = 1;
           ix = i + 1;
-          $(form_operandos).append('<div class="form-group"><label for="op' + ix + '" class="control-label col-xs-2" data-toggle="tooltip" data-placement="right" title="Palabra de, como máximo, diez letras distintas">Operando</label><div class="col-xs-2"><input type="text" class="form-control pal" id="op' + ix + '"></div><button class="btn btn-danger remove_field" type="button"><span class="glyphicon glyphicon-remove"></span></button></div>');
+          $(form_operandos).append('<div class="form-group"><label for="op' + ix + '" class="control-label col-xs-2">Operando</label><div class="col-xs-2"><input type="text" class="form-control pal" id="op' + ix + '"></div><button class="btn btn-danger remove_field" type="button"><span class="glyphicon glyphicon-remove"></span></button></div>');
           break;
         }
       }

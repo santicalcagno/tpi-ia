@@ -33,9 +33,12 @@
       <h3>Año 2016</h3>
     </div>
 
+    <div class="alert alert-info" role="alert">
+      <span class="glyphicon glyphicon-question-sign"></span> Sitúese sobre cualquier componente para obtener ayuda.
+    </div>
     <form class="form-horizontal">
       <div class="form-group">
-        <label for="operacion" class="control-label col-xs-2">Operación</label>
+        <label for="operacion" class="control-label col-xs-2" data-toggle="tooltip" data-placement="right" title="Seleccione si la operación a aplicar es una suma o una resta">Operación</label>
         <div class="col-xs-2" id="operacion">
           <label class="radio-inline">
             <input type="radio" name="operaciones" value="suma" checked="t">
@@ -56,15 +59,15 @@
       </div>
       <div id="form-operandos">
         <div class="form-group">
-          <label for="op1" class="control-label col-xs-2">Operando</label>
+          <label for="op1" class="control-label col-xs-2" data-toggle="tooltip" data-placement="right" title="Palabra de, como máximo, diez letras distintas">Operando</label>
           <div class="col-xs-2">
-            <input type="text" class="form-control pal" id="op1" placeholder="SEND" maxlength="10">
+            <input type="text" class="form-control pal" id="op1" placeholder="SEND">
           </div>
         </div>
         <div class="form-group">
-          <label for="op2" class="control-label col-xs-2">Operando</label>
+          <label for="op2" class="control-label col-xs-2" data-toggle="tooltip" data-placement="right" title="Palabra de, como máximo, diez letras distintas">Operando</label>
           <div class="col-xs-2">
-            <input type="text" class="form-control pal" id="op2" placeholder="MORE" maxlength="10">
+            <input type="text" class="form-control pal" id="op2" placeholder="MORE">
           </div>
         </div>
       </div>
@@ -74,14 +77,14 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="res" class="control-label col-xs-2">Resultado</label>
+        <label for="res" class="control-label col-xs-2" data-toggle="tooltip" data-placement="right" title="Palabra de, como máximo, diez letras distintas">Resultado</label>
         <div class="col-xs-2">
-          <input type="text" class="form-control pal" id="res" placeholder="MONEY" maxlength="10">
+          <input type="text" class="form-control pal" id="res" placeholder="MONEY">
         </div>
       </div>
       <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10">
-          <a href="#btn-config" class="btn btn-default" id="btn-config">
+          <a href="#btn-config" class="btn btn-default" id="btn-config" data-toggle="tooltip" data-placement="right" title="Puede variar los parámetros de ejecución del algoritmo presionando este botón">
             <span class="glyphicon glyphicon-cog"></span> Configuración
           </a>
         </div>
@@ -207,31 +210,31 @@
             <form class="form-horizontal">
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad de luciérnagas">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad de luciérnagas (10-50)">
                     <label for="ni" class="control-label col-md-4">ni</label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="ni" value="30" maxlength="4">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Factor de aleatoriedad del movimiento (0-1)">
                     <label for="alfa" class="control-label col-md-4">&alpha;</label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="alfa" value="0.7" maxlength="4">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Valor máximo del factor de aleatoriedad">
                     <label for="alfamax" class="control-label col-md-4">&alpha;<sub>max</sub></label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="alfamax" value="8" maxlength="4">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Factor de atractividad entre luciérnagas (0-1)">
                     <label for="betamin" class="control-label col-md-4">&beta;<sub>min</sub></label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="betamin" value="0.2" maxlength="4">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Atractividad entre luciérnagas ubicadas en el mismo estado del espacio de búsqueda">
                     <label for="betacero" class="control-label col-md-4">&beta;<sub>0</sub></label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="betacero" value="1" maxlength="4">
@@ -239,25 +242,25 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad máxima de luciérnagas a considerar en el ranking de más aptas según IFA">
                     <label for="topnum" class="control-label col-md-4">topnum</label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="topnum" value="6" maxlength="4">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Coeficiente de absorción de la luz (0.01-100)">
                     <label for="gamma" class="control-label col-md-4">&gamma;</label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="gamma" value="1" maxlength="4">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Máxima cantidad de iteraciones">
                     <label for="maxgen" class="control-label col-md-4">maxgen</label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="maxgen" value="1500" maxlength="5">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad de iteraciones tolerables con las luciérnagas más aptas con el mismo valor antes de aplicar mutación">
                     <label for="maxsametop" class="control-label col-md-4">maxsametop</label>
                     <div class="col-md-4">
                       <input type="text" class="form-control" id="maxsametop" value="5" maxlength="3">

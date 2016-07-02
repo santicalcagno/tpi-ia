@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Inteligencia Artificial - TPI</title>
+
+  <link href="css/bootstrap.min.readable.css" rel="stylesheet">
+</head>
+<body>
+
+  <div id="main-container" class="container" style="padding-top:2em">
+
+    <div class="jumbotron" style="background:url(img/cubes.png); box-shadow: 0 8px 6px -6px #888888">
+      <div class="row">
+        <div class="col-md-10">
+          <h2>Trabajo Práctico Integrador</h2>
+          <h2><span class="glyphicon glyphicon-knight"></span> Inteligencia Artificial - UTN FRRe</h2>
+        </div>
+        <div class="col-md-2">
+          <img src="img/utnLogo.svg" style="width:8em; position: bottom-right" alt="Logo UTN"/>
+        </div>
+      </div>
+      &nbsp;
+      <h3>Integrantes</h3>
+      <ul>
+        <li>Calcagno, Santiago Javier</li>
+        <li>Flores Pisarello, Juan Pablo</li>
+        <li>Ruiz Díaz, Julián David</li>
+      </ul>
+      <h3>Año 2016</h3>
+    </div>
+
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="operacion" class="control-label col-xs-2">Operación</label>
+        <div class="col-xs-2" id="operacion">
+          <label class="radio-inline">
+            <input type="radio" name="operaciones" value="suma" checked="t">
+            <span class="glyphicon glyphicon-plus"></span>
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="operaciones" value="resta">
+            <span class="glyphicon glyphicon-minus"></span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-2">
+          <button class="btn btn-default" id="btn-agregar-op">
+            <span class="glyphicon glyphicon-plus-sign"></span> Agregar operando
+          </button>
+        </div>
+      </div>
+      <div id="form-operandos">
+        <div class="form-group">
+          <label for="op1" class="control-label col-xs-2">Operando</label>
+          <div class="col-xs-2">
+            <input type="text" class="form-control pal" id="op1" placeholder="SEND" maxlength="10">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="op2" class="control-label col-xs-2">Operando</label>
+          <div class="col-xs-2">
+            <input type="text" class="form-control pal" id="op2" placeholder="MORE" maxlength="10">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-2">
+          <hr>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="res" class="control-label col-xs-2">Resultado</label>
+        <div class="col-xs-2">
+          <input type="text" class="form-control pal" id="res" placeholder="MONEY" maxlength="10">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+          <a href="#btn-config" class="btn btn-default" id="btn-config">
+            <span class="glyphicon glyphicon-cog"></span> Configuración
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+          <button type="submit" class="btn btn-primary" id="btn-calcular" data-loading-text="Calculando...">
+            <span class="glyphicon glyphicon-fire"></span> Calcular
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div id="panel-resultado" class="panel panel-success" style="display:none">
+      <div class="panel-heading">
+        <h2>Resultados</h2>
+      </div>
+      <div id="resbody" class="panel-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Tabla de valores</h3><hr>
+            <table class="table table-bordered" style="text-align:center">
+              <thead>
+                <tr>
+                  <th style="text-align:center">Letra</th>
+                  <th style="text-align:center">Valor</th>
+                </tr>
+              </thead>
+              <tbody id="tabre"></tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <h3>Datos adicionales</h3><hr>
+            <div id="displaysumas" class="row">
+              <div id="displayletras" class="col-md-6">
+                <h4>Problema ingresado</h4>
+                <p id="sumaletras" class="well" style="text-align: right; font-family:monospace"></p>
+              </div>
+              <div id="displaynros" class="col-md-6">
+                <h4>Resultado con sustitución</h4>
+                <p id="sumanros" class="well" style="text-align: right; font-family:monospace"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de resultados -->
+    <div id="modal-res" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              <span class="glyphicon glyphicon-ok"></span> ¡Solución hallada!
+            </h4>
+          </div>
+          <div class="modal-body">
+            <p>Por favor, desplácese hacia abajo para más detalles.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de tiempo de espera agotado -->
+    <div id="modal-timeout" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              <span class="glyphicon glyphicon-hourglass"></span> Tiempo de espera agotado
+            </h4>
+          </div>
+          <div class="modal-body">
+            <p>Esto puede deberse a dos razones:</p>
+            <ul>
+              <li>Se superó el límite máximo de iteraciones establecidas por el algoritmo.</li>
+              <li>El problema no tiene solución.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de error de caracteres superados -->
+    <div id="modal-chars" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              <span class="glyphicon glyphicon-sort-by-alphabet"></span> Límite de letras superado
+            </h4>
+          </div>
+          <div class="modal-body">
+            <p>El problema tiene más de 10 letras distintas, por lo que no se puede resolver.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de configuración -->
+    <div id="modal-params" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              <span class="glyphicon glyphicon-wrench"></span> Parámetros Adicionales
+            </h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad de luciérnagas">
+                    <label for="ni" class="control-label col-md-4">ni</label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="ni" value="30" maxlength="4">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="alfa" class="control-label col-md-4">&alpha;</label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="alfa" value="0.7" maxlength="4">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="alfamax" class="control-label col-md-4">&alpha;<sub>max</sub></label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="alfamax" value="8" maxlength="4">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="betamin" class="control-label col-md-4">&beta;<sub>min</sub></label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="betamin" value="0.2" maxlength="4">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="betacero" class="control-label col-md-4">&beta;<sub>0</sub></label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="betacero" value="1" maxlength="4">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="topnum" class="control-label col-md-4">topnum</label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="topnum" value="6" maxlength="4">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="gamma" class="control-label col-md-4">&gamma;</label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="gamma" value="1" maxlength="4">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="maxgen" class="control-label col-md-4">maxgen</label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="maxgen" value="1500" maxlength="5">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="maxsametop" class="control-label col-md-4">maxsametop</label>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="maxsametop" value="5" maxlength="3">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            &emsp;
+          </div>
+          <div class="modal-footer">
+            <button id="default-values" type="button" class="btn btn-default">
+              Valores por defecto
+            </button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/IFA.js"></script>
+  <script src="js/mijs.js"></script>
+</body>
+</html>

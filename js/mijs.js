@@ -8,9 +8,28 @@ $(document).ready(function() {
   var btn_config      = $('#btn-config');
   var btn_default_values = $('#default-values');
 
+  //Extraído de stackoverflow.com/a/14794066
+  function isInt(value) {
+    return !isNaN(value) &&
+      parseInt(Number(value)) == value &&
+      !isNaN(parseInt(value, 10));
+  }
+
+  function removeErr(formComponent) {
+    $(formComponent).closest('.form-group')
+      .removeClass('has-error')
+      .find('p').remove();
+  }
+
+  function addErr(formComponent, msg) {
+    $(formComponent).closest('.form-group')
+      .addClass('has-error')
+      .append('<p style="margin-top:8px; color:red">' + msg + '</p>');
+  }
+
   $(btn_config).click(function(e) {
     e.preventDefault();
-    $('#modal-params').modal();
+    $('#params').slideToggle();
   });
 
   $(btn_default_values).click(function(e) {
@@ -76,20 +95,14 @@ $(document).ready(function() {
         var opId = '#op' + (i + 1);
         var opVal = $(opId).val().toUpperCase();
         //Remover errores anteriores
-        $(opId).closest('.form-group')
-          .removeClass('has-error')
-          .find('p').remove();
+        removeErr(opId);
         if (opVal === "") {
           //Campo vacío
-          $(opId).closest('.form-group')
-            .addClass('has-error')
-            .append('<p style="margin-top:8px; color:red">Complete este campo.</p>');
+          addErr(opId, 'Complete este campo.');
           checkFlag = true;
         } else if (!/^[a-zA-Z]+$/.test(opVal)) {
           //El operando no contiene letras únicamente
-          $(opId).closest('.form-group')
-            .addClass('has-error')
-            .append('<p style="margin-top:8px; color:red">Ingrese sólo letras.</p>');
+          addErr(opId, 'Ingrese sólo letras.');
           checkFlag = true;
         } else {
           operandos.push(opVal);
@@ -99,21 +112,92 @@ $(document).ready(function() {
     }
     //Trato de igual manera el resultado
     var resVal = $('#res').val().toUpperCase();
-    $('#res').closest('.form-group')
-      .removeClass('has-error')
-      .find('p').remove();
+    removeErr('#res');
     if (resVal === "") {
-      $('#res').closest('.form-group')
-        .addClass('has-error')
-        .append('<p style="margin-top:8px; color:red">Complete este campo.</p>');
+      addErr('#res', 'Complete este campo.');
       checkFlag = true;
     } else if (!/^[a-zA-Z]+$/.test(resVal)) {
-      $('#res').closest('.form-group')
-        .addClass('has-error')
-        .append('<p style="margin-top:8px; color:red">Ingrese sólo letras.</p>');
+      addErr('#res', 'Ingrese sólo letras.');
       checkFlag = true;
     } else {
       operandos.push(resVal);
+    }
+
+    var ni = Number($('#ni').val());
+    removeErr('#ni');
+    if (!isInt(ni)) {
+      addErr('#ni','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var alfa = Number($('#alfa').val());
+    removeErr('#alfa');
+    if (isNaN(alfa)) {
+      addErr('#alfa','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var alfamax = Number($('#alfamax').val());
+    removeErr('#alfamax');
+    if (isNaN(alfamax)) {
+      addErr('#alfamax','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var betamin = Number($('#betamin').val());
+    removeErr('#betamin');
+    if (isNaN(betamin)) {
+      addErr('#betamin','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var betacero = Number($('#betacero').val());
+    removeErr('#betacero');
+    if (isNaN(betacero)) {
+      addErr('#betacero','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+    if (betamin > betacero) {
+      addErr('#betamin','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var topnum = Number($('#topnum').val());
+    removeErr('#topnum');
+    if (!isInt(topnum) || topnum > ni) {
+      addErr('#topnum','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var gamma = Number($('#gamma').val());
+    removeErr('#gamma');
+    if (isNaN(gamma)) {
+      addErr('#gamma','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var maxgen = Number($('#maxgen').val());
+    removeErr('#maxgen');
+    if (!isInt(maxgen)) {
+      addErr('#maxgen','');
+      $('#params').slideDown();
+      checkFlag = true;
+    }
+
+    var maxsametop = Number($('#maxsametop').val());
+    removeErr('#maxsametop');
+    if (!isInt(maxsametop)) {
+      addErr('#maxsametop','');
+      $('#params').slideDown();
+      checkFlag = true;
     }
 
     if (checkFlag) {

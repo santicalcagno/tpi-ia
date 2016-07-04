@@ -36,12 +36,12 @@ $(document).ready(function() {
     $('#ni').val('30');
     $('#alfa').val('0.7');
     $('#alfamax').val('8');
-    $('#betamin').val('0.2');
+    $('#betamin').val('0.3');
     $('#betacero').val('1');
     $('#topnum').val('6');
     $('#gamma').val('1');
     $('#maxgen').val('1500');
-    $('#maxsametop').val('5');
+    $('#maxsametop').val('3');
   });
 
   $('[data-toggle="tooltip"]').tooltip();
@@ -224,7 +224,10 @@ $(document).ready(function() {
       //Mandar los datos al algoritmo FA
       //var letters = {A: 8, B: 7, C: 6};
       //var letters = null;
-      var letters = fireflies(operandos, operacion, ni, topnum, alfa, alfamax, gamma, betacero, betamin, maxsametop, maxgen);
+      var resObj = fireflies(operandos, operacion, ni, topnum, alfa, alfamax, gamma, betacero, betamin, maxsametop, maxgen);
+      var letters = resObj.result;
+      var iter = resObj.iter;
+      var ffAvg = resObj.avg;
 
       if (letters == null) {
         $('#modal-timeout').modal();
@@ -240,6 +243,8 @@ $(document).ready(function() {
       $('#tabre').empty();
       $('#sumaletras').empty();
       $('#sumanros').empty();
+      $('#iter').empty();
+      $('#ffAvg').empty();
 
       //Construir la tabla de correspondencia entre letras y números
       for (var letter in letters) {
@@ -278,6 +283,9 @@ $(document).ready(function() {
       lastOp = replacedOps[replacedOps.length-1];
       strDashes = Array(lastOp.length + 3).join('-');
       $('#sumanros').append('<br>' + strDashes + '<br>' + lastOp);
+
+      $('#iter').append('Cantidad de iteraciones: ' + iter);
+      $('#ffAvg').append('Promedio de aptitud en la última generación: ' + Math.round(ffAvg * 100)/100);
 
       $('#panel-resultado').slideDown();
       $btn.button('reset');

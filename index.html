@@ -121,7 +121,7 @@
                   <input type="text" class="form-control" id="alfamax" value="8" maxlength="4">
                 </div>
               </div>
-              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Factor de atractividad entre luciérnagas (0-1)">
+              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Factor de atractividad entre luciérnagas (0-1, menor que beta 0)">
                 <label for="betamin" class="control-label col-md-4">&beta;<sub>min</sub></label>
                 <div class="col-md-4">
                   <input type="text" class="form-control" id="betamin" value="0.3" maxlength="4">
@@ -135,7 +135,7 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad máxima de luciérnagas a considerar en el ranking de más aptas según IFA (ni/10 - ni/2)">
+              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad máxima de luciérnagas a considerar en el ranking de más aptas según IFA (ni/10 - ni/2, menor que ni, entero)">
                 <label for="topnum" class="control-label col-md-4">topnum</label>
                 <div class="col-md-4">
                   <input type="text" class="form-control" id="topnum" value="6" maxlength="4">
@@ -147,13 +147,13 @@
                   <input type="text" class="form-control" id="gamma" value="1" maxlength="4">
                 </div>
               </div>
-              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Máxima cantidad de iteraciones">
+              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Máxima cantidad de iteraciones (entero)">
                 <label for="maxgen" class="control-label col-md-4">maxgen</label>
                 <div class="col-md-4">
                   <input type="text" class="form-control" id="maxgen" value="1500" maxlength="5">
                 </div>
               </div>
-              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad de iteraciones tolerables con las luciérnagas más aptas con el mismo valor antes de aplicar mutación">
+              <div class="form-group" data-toggle="tooltip" data-placement="top" title="Cantidad de iteraciones tolerables con las luciérnagas más aptas con el mismo valor antes de aplicar mutación (entero)">
                 <label for="maxsametop" class="control-label col-md-4">maxsametop</label>
                 <div class="col-md-4">
                   <input type="text" class="form-control" id="maxsametop" value="3" maxlength="3">

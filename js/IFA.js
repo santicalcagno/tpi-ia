@@ -229,13 +229,15 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 		for (var k in fireFlies){
 			var ff = fireFlies[k];
 			var intensity = getIntensity(ff, words, operation);
-			if (intensity == 0)
+			if (intensity == 0){
 					found = true;
+					var result = ff;
+			}
 			avgInt = avgInt + Math.abs(intensity);
 		}
 		if (found)
 		//Solución encontrada
-			return {iter: iterations, avg: avgInt/(iterations*ni), result: ff};
+			return {iter: iterations, avg: avgInt/(iterations*ni), result: result};
 
 		// Buscar las 'topNum' mejores luciérnagas
 		var topFF = findTop(fireFlies, words, operation, topNum, []);

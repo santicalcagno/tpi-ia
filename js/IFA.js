@@ -1,6 +1,3 @@
-/**
- * Created by Julian on 04/07/2016.
- */
 function reverse(s){
 	// Devuelve el string 's' invertido
 	return s.split("").reverse().join("");
@@ -112,7 +109,6 @@ function attract(ff1, ff2, betaMin, beta0, alfa, gamma, letters){
 
 	var availableNums = [0,1,2,3,4,5,6,7,8,9];
 	shuffle(availableNums);
-	//shuffle(letters)
 	letters = letters.reverse();
 	for (var i in letters){
 		var k =  letters[i];
@@ -195,7 +191,7 @@ function findTop(fireFlies, words, operation, topNum, topFF){
 		topFF.push(fittest);
 		var index = fireFlies.indexOf(fittest);
 		fireFlies.splice(index,1);
-		return findTop(fireFlies, words, operation, topNum - 1,topFF)
+		return findTop(fireFlies, words, operation, topNum - 1, topFF)
 	}
 }
 
@@ -205,7 +201,7 @@ function mutatePopulation(fireFlies, alfa, betaMin, beta0, gamma, letters){
 	while (j < 3){
 		for (var i in fireFlies){
 			var ff = fireFlies[i];
-			ff = attract(ff, generateFirefly(letters), betaMin, beta0, alfa, gamma, letters);
+			ff = attract(ff, ff, betaMin, beta0, alfa, gamma, letters);
 		}
 		j = j + 1;
 	}
@@ -223,7 +219,6 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 	var previousTop = 0;
 	var sameTop = 0;
 	var found = false;
-	var avgInt = 0;
 	
 	//Inicio
 	while (iterations < maxGen){
@@ -262,18 +257,26 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 		}
 		
 		// Buscar las 'topNum' mejores luciérnagas
-		topFF = findTop(fireFlies, words, operation, topNum, []);
+		// topFF = findTop(fireFlies, words, operation, topNum, []);
 
 		// Comprobar que la intensidad de la mejor haya variado desde el último ciclo
-		if (Math.abs(getIntensity(findTheFittest(topFF, words, operation), words, operation)) == Math.abs(previousTop)) sameTop = sameTop + 1;
+		if (Math.abs(getIntensity(findTheFittest(fireFlies, words, operation), words, operation)) == Math.abs(previousTop)) 
+			sameTop = sameTop + 1;
 		else {
 			previousTop = getIntensity(topFF[0], words, operation);
 			sameTop = 0;
 		}
 
 		// Si no ha variado en 5 ciclos, se muta la población
-		if (sameTop > maxSameTop) fireFlies = mutatePopulation(fireFlies, alfa, betaMin, beta0, gamma, letters);
+		if (sameTop > maxSameTop) fireFlies = mutatePopulation(fireFlies, alfaMax, betaMin, beta0, gamma, letters);
 	}
 	// Si no se encuentra solucion luego de 'maxGen' ciclos, devuelve nulo
+
+	var avgInt = 0;
+	for (var k in fireFlies){
+		var ff = fireFlies[k];
+		var intensity = getIntensity(ff, words, operation);
+		avgInt = avgInt + Math.abs(intensity);
+	}
 	return {iter: maxGen, avg: avgInt/(maxGen*ni), result: null};
 }

@@ -177,15 +177,6 @@ function  findTheFittest(fireFlies, words, operation) {
 	return mostFit;
 }
 
-function findFittestGroup(fittest, fireFlies, words, operation){
-	var fittestGroup = [];
-	for (var f in fireFlies){
-		var ff = fireFlies[f];
-		if (Math.abs(getIntensity(ff, words, operation)) == fittest)
-			fittestGroup.push(ff);
-	}
-}
-
 function findTop(fireFlies, words, operation, topNum, topFF){
 	// Devuelve las 'topNum' luciérnagas mas aptas
 
@@ -222,43 +213,34 @@ function mutatePopulation(fireFlies, alfa, betaMin, beta0, gamma, letters){
 }
 
 function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, betaMin, maxSameTop, maxGen){
-//function fireflies(words, operation){
 	// Algoritmo de luciérnagas inteligente
 
 	// Inicialización de variables
-
-	/* var gamma = 1;
-	 var alfa = 0.7;
-	 var ni = 20;
-	 var topNum = Math.round(ni/5);
-	 var alfaMax = 8;
-	 var betaMin = 0.2;
-	 var beta0 = 1;
-	 var beta = beta0;
-	 var maxSameTop = 10;
-	 var maxGen = 1500;
-	 */
 	var letters =  getLetters(words, operation);
 	var fireFlies = generateFireflies(ni, letters);
 	var i = 0;
 	var iterations = 0;
 	var previousTop = 0;
 	var sameTop = 0;
-
-
+	var found = false;
+	var avgInt = 0;
+	
 	//Inicio
 	while (iterations < maxGen){
 		iterations = iterations + 1;
 
 		// Comprobación de brillo de las luciérnagas.
+		var avgInt = 0;
 		for (var k in fireFlies){
 			var ff = fireFlies[k];
-			//console.log(getIntensity(ff, words, operation));
-			if (getIntensity(ff, words, operation) == 0){
-				//Solución encontrada
-				return ff;
-			}
+			var intensity = getIntensity(ff, words, operation);
+			if (intensity == 0)
+					found = true;
+			avgInt = avgInt + Math.abs(intensity);
 		}
+		if (found)
+		//Solución encontrada
+			return {iter: iterations, avg: avgInt/(iterations*ni), result: ff};
 
 		// Buscar las 'topNum' mejores luciérnagas
 		var topFF = findTop(fireFlies, words, operation, topNum, []);
@@ -278,16 +260,7 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 			}
 			i = i + 1;
 		}
-
-		// Movimiento aleatorio de las luciernagas de mejor intensidad que no se movieron en esta iteracion
-		notAttracted = findFittestGroup(getIntensity(findTheFittest(fireFlies, words, operation), words, operation), fireFlies, words, operation)
-		for (k in notAttracted){
-			ff = notAttracted[k];
-
-			// Movimiento aleatorio de ff
-			ff = attract(ff, ff, 0, 0, alfa, gamma, letters);
-		}
-
+		
 		// Buscar las 'topNum' mejores luciérnagas
 		topFF = findTop(fireFlies, words, operation, topNum, []);
 
@@ -302,5 +275,5 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 		if (sameTop > maxSameTop) fireFlies = mutatePopulation(fireFlies, alfa, betaMin, beta0, gamma, letters);
 	}
 	// Si no se encuentra solucion luego de 'maxGen' ciclos, devuelve nulo
-	//return null;
+	return {iter: maxGen, avg: avgInt/(maxGen*ni), result: null};
 }

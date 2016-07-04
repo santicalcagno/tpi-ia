@@ -63,7 +63,7 @@ $(document).ready(function() {
         if (!inputs[i]) {
           inputs[i] = 1;
           ix = i + 1;
-          $(form_operandos).append('<div class="form-group"><label for="op' + ix + '" class="control-label col-xs-2">Operando</label><div class="col-xs-2"><input type="text" class="form-control pal" id="op' + ix + '"></div><button class="btn btn-danger remove_field" type="button"><span class="glyphicon glyphicon-remove"></span></button></div>');
+          $(form_operandos).append('<div class="form-group"><label for="op' + ix + '" class="control-label col-xs-3">Operando</label><div class="col-xs-3"><input type="text" class="form-control pal" id="op' + ix + '" style="text-align:center"></div><button class="btn btn-danger remove_field" type="button"><span class="glyphicon glyphicon-remove"></span></button></div>');
           break;
         }
       }
@@ -218,69 +218,70 @@ $(document).ready(function() {
     //Operacion
     var operacion = $('input[name=operaciones]:checked', '#operacion').val();
 
-    //PROCESAMIENTO
+    function terminar() {
+      //PROCESAMIENTO
 
-    //Mandar los datos al algoritmo FA
-    //var letters = {A: 8, B: 7, C: 6};
-    //var letters = null;
-    var letters = fireflies(operandos, operacion, ni, topnum, alfa, alfamax, gamma, betacero, betamin, maxsametop, maxgen);
+      //Mandar los datos al algoritmo FA
+      //var letters = {A: 8, B: 7, C: 6};
+      //var letters = null;
+      var letters = fireflies(operandos, operacion, ni, topnum, alfa, alfamax, gamma, betacero, betamin, maxsametop, maxgen);
 
-    if (letters == null) {
-      $('#modal-timeout').modal();
-      $btn.button('reset');
-      return;
-    }
-
-    $('#modal-res').modal();
-
-    //ENVIO DE SALIDAS
-
-    //Borro los datos anteriores de la tabla
-    $('#tabre').empty();
-    $('#sumaletras').empty();
-    $('#sumanros').empty();
-
-    //Construir la tabla de correspondencia entre letras y números
-    for (var letter in letters) {
-      $('#tabre').append('<tr><td>' + letter + '</td><td>' + letters[letter]
-      + '</td></tr>');
-    }
-
-    var charOp = operacion === "suma" ? '+' : '-';
-
-    //Mostrar la suma como letras
-    $('#sumaletras').append(operandos[0]);
-    for (var i = 1; i < operandos.length - 1; i++) {
-      var termino = charOp + ' ' + operandos[i];
-      $('#sumaletras').append('<br>'+ termino);
-    }
-    lastOp = operandos[operandos.length-1];
-    strDashes = Array(lastOp.length + 3).join('-');
-    $('#sumaletras').append('<br>' + strDashes + '<br>' + lastOp);
-
-    //Mostrar la suma como números
-    //Se arma el arreglo a partir de los operandos
-    var replacedOps = [];
-    for (var i = 0; i < operandos.length; i++) {
-      replacedOps[i] = operandos[i];
-      for (var letter in letters) {
-        //Sustituir a cada letra por su número
-        replacedOps[i] = replacedOps[i].split(letter).join(letters[letter]);
+      if (letters == null) {
+        $('#modal-timeout').modal();
+        $btn.button('reset');
+        return;
       }
-    }
-    //Mostrar como en el caso anterior
-    $('#sumanros').append(replacedOps[0]);
-    for (var i = 1; i < replacedOps.length - 1; i++) {
-      var termino = charOp + ' ' + replacedOps[i];
-      $('#sumanros').append('<br>'+ termino);
-    }
-    lastOp = replacedOps[replacedOps.length-1];
-    strDashes = Array(lastOp.length + 3).join('-');
-    $('#sumanros').append('<br>' + strDashes + '<br>' + lastOp);
 
-    $('#panel-resultado').slideDown();
+      $('#modal-res').modal();
 
-    $btn.button('reset');
+      //ENVIO DE SALIDAS
+
+      //Borro los datos anteriores de la tabla
+      $('#tabre').empty();
+      $('#sumaletras').empty();
+      $('#sumanros').empty();
+
+      //Construir la tabla de correspondencia entre letras y números
+      for (var letter in letters) {
+        $('#tabre').append('<tr><td>' + letter + '</td><td>' + letters[letter]
+        + '</td></tr>');
+      }
+
+      var charOp = operacion === "suma" ? '+' : '-';
+
+      //Mostrar la suma como letras
+      $('#sumaletras').append(operandos[0]);
+      for (var i = 1; i < operandos.length - 1; i++) {
+        var termino = charOp + ' ' + operandos[i];
+        $('#sumaletras').append('<br>'+ termino);
+      }
+      lastOp = operandos[operandos.length-1];
+      strDashes = Array(lastOp.length + 3).join('-');
+      $('#sumaletras').append('<br>' + strDashes + '<br>' + lastOp);
+
+      //Mostrar la suma como números
+      //Se arma el arreglo a partir de los operandos
+      var replacedOps = [];
+      for (var i = 0; i < operandos.length; i++) {
+        replacedOps[i] = operandos[i];
+        for (var letter in letters) {
+          //Sustituir a cada letra por su número
+          replacedOps[i] = replacedOps[i].split(letter).join(letters[letter]);
+        }
+      }
+      //Mostrar como en el caso anterior
+      $('#sumanros').append(replacedOps[0]);
+      for (var i = 1; i < replacedOps.length - 1; i++) {
+        var termino = charOp + ' ' + replacedOps[i];
+        $('#sumanros').append('<br>'+ termino);
+      }
+      lastOp = replacedOps[replacedOps.length-1];
+      strDashes = Array(lastOp.length + 3).join('-');
+      $('#sumanros').append('<br>' + strDashes + '<br>' + lastOp);
+
+      $('#panel-resultado').slideDown();
+      $btn.button('reset');
+    }
+    setTimeout(terminar, 20);
   });
-
 });

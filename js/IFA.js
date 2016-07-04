@@ -1,3 +1,6 @@
+/**
+ * Created by Julian on 04/07/2016.
+ */
 function reverse(s){
 	// Devuelve el string 's' invertido
 	return s.split("").reverse().join("");
@@ -87,7 +90,7 @@ function getDistance(ff1, ff2, letters){
 	for (var i in letters){
 		var k = letters[i];
 		if (ff1[k] != ff2[k]){
-			rks.push(Math.abs(ff1[k] - ff2[k]));
+			rks.push((ff1[k] - ff2[k]));
 		}
 	}
 	for (var j in rks){
@@ -109,6 +112,7 @@ function attract(ff1, ff2, betaMin, beta0, alfa, gamma, letters){
 
 	var availableNums = [0,1,2,3,4,5,6,7,8,9];
 	shuffle(availableNums);
+	//shuffle(letters)
 	letters = letters.reverse();
 	for (var i in letters){
 		var k =  letters[i];
@@ -233,7 +237,7 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 	 var beta = beta0;
 	 var maxSameTop = 10;
 	 var maxGen = 1500;
-	*/
+	 */
 	var letters =  getLetters(words, operation);
 	var fireFlies = generateFireflies(ni, letters);
 	var i = 0;
@@ -253,22 +257,11 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 			if (getIntensity(ff, words, operation) == 0){
 				//Solución encontrada
 				return ff;
-				// return iterations;
 			}
 		}
 
 		// Buscar las 'topNum' mejores luciérnagas
 		var topFF = findTop(fireFlies, words, operation, topNum, []);
-
-		// Comprobar que la intensidad de la mejor haya variado desde el último ciclo
-		if (Math.abs(getIntensity(findTheFittest(topFF, words, operation), words, operation)) == Math.abs(previousTop)) sameTop = sameTop + 1;
-		else {
-			previousTop = getIntensity(topFF[0], words, operation);
-			sameTop = 0;
-		}
-
-		// Si no ha variado en 5 ciclos, se muta la población
-		if (sameTop > maxSameTop) fireFlies = mutatePopulation(fireFlies, alfa, betaMin, beta0, gamma, letters);
 
 		// Comparación de luciérnagas
 		i = 0;
@@ -292,10 +285,22 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 			ff = notAttracted[k];
 
 			// Movimiento aleatorio de ff
-			ff = attract(ff, ff, 0, 0, alfaMax, gamma, letters);
+			ff = attract(ff, ff, 0, 0, alfa, gamma, letters);
 		}
+
+		// Buscar las 'topNum' mejores luciérnagas
+		topFF = findTop(fireFlies, words, operation, topNum, []);
+
+		// Comprobar que la intensidad de la mejor haya variado desde el último ciclo
+		if (Math.abs(getIntensity(findTheFittest(topFF, words, operation), words, operation)) == Math.abs(previousTop)) sameTop = sameTop + 1;
+		else {
+			previousTop = getIntensity(topFF[0], words, operation);
+			sameTop = 0;
+		}
+
+		// Si no ha variado en 5 ciclos, se muta la población
+		if (sameTop > maxSameTop) fireFlies = mutatePopulation(fireFlies, alfa, betaMin, beta0, gamma, letters);
 	}
 	// Si no se encuentra solucion luego de 'maxGen' ciclos, devuelve nulo
-	return null;
-	// return iterations;
+	//return null;
 }

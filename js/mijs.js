@@ -11,20 +11,20 @@ $(document).ready(function() {
   //Extraído de stackoverflow.com/a/14794066
   function isInt(value) {
     return !isNaN(value) &&
-      parseInt(Number(value)) == value &&
-      !isNaN(parseInt(value, 10));
+    parseInt(Number(value)) == value &&
+    !isNaN(parseInt(value, 10));
   }
 
   function removeErr(formComponent) {
     $(formComponent).closest('.form-group')
-      .removeClass('has-error')
-      .find('p').remove();
+    .removeClass('has-error')
+    .find('p').remove();
   }
 
   function addErr(formComponent, msg) {
     $(formComponent).closest('.form-group')
-      .addClass('has-error')
-      .append('<p style="margin-top:8px; color:red">' + msg + '</p>');
+    .addClass('has-error')
+    .append('<p style="margin-top:8px; color:red">' + msg + '</p>');
   }
 
   $(btn_config).click(function(e) {
@@ -208,7 +208,7 @@ $(document).ready(function() {
     //Chequeo la cantidad de caracteres distintos. Si es >10 no tiene solución
     //Extraído de stackoverflow.com/a/28798478
     var unique = opString.split('')
-      .filter(function(item, i, ar){return ar.indexOf(item) === i; }).join('');
+    .filter(function(item, i, ar){return ar.indexOf(item) === i; }).join('');
     if (unique.length > 10) {
       $('#modal-chars').modal();
       $btn.button('reset');
@@ -223,7 +223,7 @@ $(document).ready(function() {
     //Mandar los datos al algoritmo FA
     //var letters = {A: 8, B: 7, C: 6};
     //var letters = null;
-    var letters = fireflies(operandos, operacion);
+    var letters = fireflies(operandos, operacion, ni, topnum, alfa, alfamax, gamma, betacero, betamin, maxsametop, maxgen);
 
     if (letters == null) {
       $('#modal-timeout').modal();
@@ -243,7 +243,7 @@ $(document).ready(function() {
     //Construir la tabla de correspondencia entre letras y números
     for (var letter in letters) {
       $('#tabre').append('<tr><td>' + letter + '</td><td>' + letters[letter]
-        + '</td></tr>');
+      + '</td></tr>');
     }
 
     var charOp = operacion === "suma" ? '+' : '-';
@@ -281,7 +281,6 @@ $(document).ready(function() {
     $('#panel-resultado').slideDown();
 
     $btn.button('reset');
-
   });
 
 });

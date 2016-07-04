@@ -207,7 +207,7 @@ function findTop(fireFlies, words, operation, topNum, topFF){
 function mutatePopulation(fireFlies, alfa, betaMin, beta0, gamma, letters){
 	// Realiza una mutación a la población entera
 	var j = 0;
-	while (j < 3){ 
+	while (j < 3){
 		for (var i in fireFlies){
 			var ff = fireFlies[i];
 			ff = attract(ff, generateFirefly(letters), betaMin, beta0, alfa, gamma, letters);
@@ -252,8 +252,8 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 			//console.log(getIntensity(ff, words, operation));
 			if (getIntensity(ff, words, operation) == 0){
 				//Solución encontrada
-				//return ff;
-				return iterations;
+				return ff;
+				// return iterations;
 			}
 		}
 
@@ -296,35 +296,6 @@ function fireflies(words, operation, ni, topNum, alfa, alfaMax, gamma, beta0, be
 		}
 	}
 	// Si no se encuentra solucion luego de 'maxGen' ciclos, devuelve nulo
-	//return null;
-	return iterations;
+	return null;
+	// return iterations;
 }
-
-maxGen = 1500;
-var MAX_TESTS = 10;
-console.log("Entré");
-var testCases = [];
-for (var i = 0; i < MAX_TESTS; i++) {
-	testCases[i] = fireflies(["COMET", "SATURN", "URANUS"], "suma", 50, 5, 0.9, 8, 1, 0, 0.5, 3, maxGen);
-	if (testCases[i] < maxGen)
-		console.log("Resultado " + (i+1) + " hallado");
-	else
-		console.log("Resultado " + (i+1) + " no hallado en " + maxGen + " iteraciones")
-}
-console.log("Salí");
-
-console.log("Cantidad de fireflies: 10");
-
-var testAvg = 0;
-var maxIter = 0;
-var minIter = 9999;
-for (var i = 0; i < testCases.length; i++) {
-	testAvg += testCases[i];
-	if (testCases[i] > maxIter) maxIter = testCases[i];
-	if (testCases[i] < minIter) minIter = testCases[i];
-}
-testAvg /= testCases.length;
-
-console.log("Promedio: " + testAvg);
-console.log("Maxima iteracion: " + maxIter);
-console.log("Minima iteracion: " + minIter);
